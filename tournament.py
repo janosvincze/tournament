@@ -56,7 +56,7 @@ def registerPlayer(name):
 
     conn = connect()
     c = conn.cursor()
-    c.execute("INSERT INTO players(player_name) VALUES(%s);",(name,))
+    c.execute("INSERT INTO players(player_name) VALUES(%s);", (name,))
     conn.commit()
     conn.close()
 
@@ -64,8 +64,8 @@ def registerPlayer(name):
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
 
-    The first entry in the list should be the player in first place, or a player
-    tied for first place if there is currently a tie.
+    The first entry in the list should be the player in first place, or a
+    player tied for first place if there is currently a tie.
 
     Returns:
       A list of tuples, each of which contains (id, name, wins, matches):
@@ -78,7 +78,8 @@ def playerStandings():
     conn = connect()
     c = conn.cursor()
     c.execute("SELECT * FROM vw_actual_standings;")
-    standing = list((row[0],str(row[1]),row[2],row[3]) for row in c.fetchall())
+    standing = list((row[0], str(row[1]), row[2], row[3])
+                    for row in c.fetchall())
     conn.commit()
     conn.close()
     return standing
@@ -95,7 +96,7 @@ def reportMatch(winner, loser):
     conn = connect()
     c = conn.cursor()
     c.execute("""INSERT INTO matches(player1_id,player2_id,result)
-                VALUES(%s,%s,1)""",(winner,loser,))
+                VALUES(%s,%s,1)""", (winner, loser,))
     conn.commit()
     conn.close()
 
@@ -119,9 +120,8 @@ def swissPairings():
     conn = connect()
     c = conn.cursor()
     c.execute("SELECT * FROM vw_swiss_pairing;")
-    pairs = list((row[0],str(row[1]),row[2],str(row[3])) for row in c.fetchall())
+    pairs = list((row[0], str(row[1]), row[2], str(row[3]))
+                 for row in c.fetchall())
     conn.commit()
     conn.close()
     return pairs
-
-
